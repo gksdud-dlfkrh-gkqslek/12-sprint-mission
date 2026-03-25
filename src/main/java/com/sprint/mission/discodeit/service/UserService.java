@@ -2,6 +2,7 @@ package com.sprint.mission.discodeit.service;
 
 import com.sprint.mission.discodeit.entity.User;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface UserService {
@@ -23,4 +24,8 @@ public interface UserService {
 
     // 현제 접속 중인지 유저 이메일 조회
     String  enableuser();
+
+    List<String> IdByName(List<UUID> enableid);
+
+    //
 }

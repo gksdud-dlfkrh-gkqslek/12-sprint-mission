@@ -19,7 +19,7 @@ public class JCFMessage implements MessageService {
 
     // 메시지 조회
     @Override
-    public List<String> findmessage(UUID id) {
+    public List<String> findmessage(String id) {
         for(Message m : message){
             if(m.getChannelId().equals(id)){
                 for(String me :  m.getContents()){

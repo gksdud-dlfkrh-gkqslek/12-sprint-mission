@@ -2,12 +2,13 @@ package com.sprint.mission.discodeit.service;
 
 import com.sprint.mission.discodeit.entity.Channel;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface ChannelService {
 
     // 내 채팅방 조회
-    void findMyChannel(UUID myid);
+    List<String> findMyChannel(UUID myid);
 
     // 채널 생성
     void creat(String channelname, String username,  UUID myid);
@@ -26,4 +27,12 @@ public interface ChannelService {
 
     // 채널 id로 조회하고 유저 id로 유저 초대하기
     void invite(UUID channelId, UUID inviteruserId);
+
+    // 채널 삭제
+    void delete(String channelId, String username);
+
+    // 채팅방 허용된 유저 조회
+    List<UUID> findEnableUser(String channelID);
+
+    void resignUser(UUID channelID, String id, String username);
 }

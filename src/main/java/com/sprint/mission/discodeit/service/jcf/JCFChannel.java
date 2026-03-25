@@ -23,16 +23,20 @@ public class JCFChannel implements ChannelService {
 
     // 내 채팅방 조회
     @Override
-    public void findMyChannel(UUID myid) {
+    public List<String> findMyChannel(UUID myid) {
+        List<String> list = new ArrayList<>();
         for(Channel channel : channels) {
             for(UUID enableuser : channel.getEnableuser()){
                 if(enableuser.equals(myid)){
-                    System.out.println(channel.getId() + " | " + channel.getChannelname() + " | " + channel.getUsername());
-                    return;
+                    list.add(channel.getId() + " | " + channel.getChannelname() + " | " + channel.getUsername());
                 }
             }
         }
-        System.out.println("\n            체널이 없습니다.\n");
+        if(list.isEmpty()){
+            return null;
+        }
+        return list;
+
 
     }
 
@@ -80,6 +84,57 @@ public class JCFChannel implements ChannelService {
             }
         }
 
+    }
+
+    // 채팅방 허용된 유저 조회
+    @Override
+    public List<UUID> findEnableUser(String channelID) {
+
+        UUID chId = UUID.fromString(channelID);
+        System.out.println("----- > 해당 채널에 허용된 유저 <-----");
+        for(Channel c : channels){
+            if(c.getId().equals(chId)){
+                return c.getEnableuser();
+            }
+        }
+        return null;
+
+    }
+
+    @Override
+    public void resignUser(UUID channelID, String id, String username) {
+        UUID uuid = UUID.fromString(id);
+        for(Channel c : channels) {
+            if (c.getId().equals(channelID)) {
+                for (UUID enableuser : c.getEnableuser()) {
+                    if (enableuser.equals(uuid)) {
+                        c.getEnableuser().remove(enableuser);
+                        System.out.println("강퇴 완료!");
+                    }
+                }
+            }
+        }
+    }
+
+    // 채널 삭제
+    @Override
+    public void delete(String channelId, String username) {
+        UUID chId = UUID.fromString(channelId);
+
+        for(Channel c : channels){
+            if(c.getId().equals(chId)){
+                if(c.getUsername().equals(username)){
+                    channels.remove(c);
+                    System.out.println("채널이 삭제 되었습니다!");
+                    return;
+                }
+                else {
+                    System.out.println("방장만 채널을 사용할 수 있습니다.");
+                    return;
+                }
+            }
+        }
+        System.out.println("채널이 없습니다.");
     }
 
     // 채널 생성

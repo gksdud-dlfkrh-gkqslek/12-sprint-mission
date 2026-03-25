@@ -86,4 +86,19 @@ public class JCFUserService implements UserService {
         }
         return null;
     }
+
+    @Override
+    public List<String> IdByName(List<UUID> enableid) {
+        List<String> enablename = new ArrayList<>();
+        for(User user : users){
+            for(UUID id : enableid){
+                if(user.getId().equals(id)){
+                    enablename.add(user.getUsername());
+
+                }
+            }
+
+        }
+        return enablename;
+    }
 }
