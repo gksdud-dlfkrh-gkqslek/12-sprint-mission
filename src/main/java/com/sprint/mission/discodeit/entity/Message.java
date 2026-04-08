@@ -1,65 +1,42 @@
 package com.sprint.mission.discodeit.entity;
 
+import lombok.Getter;
+
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.time.Instant;
 import java.util.UUID;
 
+@Getter
 public class Message implements Serializable {
-    private final UUID id;
-    private final Long createdAt;
-    private Long updatedAt;
+    private static final long serialVersionUID = 1L;
 
+    private UUID id;
+    private Instant createdAt;
+    private Instant updatedAt;
+    //
+    private String content;
+    //
     private UUID channelId;
-    private String username;            //사용자 이름
-    private String channelname;         //체널이름
-    private List<String> contents = new ArrayList<>();
+    private UUID authorId;
 
-    public Message(String channelname, UUID id) {
-        this.channelname = channelname;
-        this.createdAt = System.currentTimeMillis();
-        this.updatedAt = this.createdAt;
+    public Message(String content, UUID channelId, UUID authorId) {
         this.id = UUID.randomUUID();
-        this.channelId = id;
+        this.createdAt = Instant.now();
+        //
+        this.content = content;
+        this.channelId = channelId;
+        this.authorId = authorId;
     }
 
-    public String getChannelname() {
-        return channelname;
-    }
+    public void update(String newContent) {
+        boolean anyValueUpdated = false;
+        if (newContent != null && !newContent.equals(this.content)) {
+            this.content = newContent;
+            anyValueUpdated = true;
+        }
 
-    public Long getCreatedAt() {
-        return createdAt;
+        if (anyValueUpdated) {
+            this.updatedAt = Instant.now();
+        }
     }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public Long getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public UUID getChannelId() {
-        return channelId;
-    }
-
-    public List<String> getContents() {
-        return contents;
-    }
-    @Override
-    public String toString() {
-        return "Message{" +
-                "channelname='" + channelname + '\'' +
-                ", id=" + id +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", username='" + username + '\'' +
-                '}';
-    }
-
 }

@@ -1,31 +1,18 @@
 package com.sprint.mission.discodeit.service;
 
+import com.sprint.mission.discodeit.dto.CreateUserRequest;
+import com.sprint.mission.discodeit.dto.UpdateUserRequest;
+import com.sprint.mission.discodeit.dto.UserDto;
 import com.sprint.mission.discodeit.entity.User;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface UserService {
+    User create(CreateUserRequest createUserRequest);
+    UserDto find(UUID userId);
+    List<UserDto> findAll();
+    User update(UUID userId, String newUsername, String newEmail, String newPassword);
+    void delete(UUID userId);
 
-    // 로그인
-    Boolean login(String email, String password);
-
-    // 회원가입
-    void create(String newemail, String newname, String newpassword);
-
-    // 이메일로 유저 조회
-    User find(String email);
-
-    // 이메일로 유저 id 조회
-    UUID finduserId(String email);
-
-    // 로그아웃
-    void logout(UUID id);
-
-    // 현제 접속 중인지 유저 이메일 조회
-    String  enableuser();
-
-    List<String> IdByName(List<UUID> enableid);
-
-    //
 }

@@ -1,64 +1,44 @@
 package com.sprint.mission.discodeit.entity;
 
+import lombok.Getter;
+
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.Instant;
 import java.util.UUID;
 
+@Getter
 public class Channel implements Serializable {
-    private final UUID id;
-    private final Long createdAt;
-    private Long updatedAt;
+    private static final long serialVersionUID = 1L;
+    private UUID id;
+    private Instant createdAt;
+    private Instant updatedAt;
+    //
+    private ChannelType type;
+    private String name;
+    private String description;
 
-    private String username;        // 채널을 만든 사용자이름
-    private String channelname;     //채널 이름
-    private List<UUID> enableuser =  new ArrayList<>();
-
-    public Channel(String channelname,String username,  UUID myid) {
-        this.channelname = channelname;
-        this.createdAt = System.currentTimeMillis();
+    public Channel(ChannelType type, String name, String description) {
         this.id = UUID.randomUUID();
-        this.username = username;
-        this.enableuser.add(myid);
+        this.createdAt = Instant.now();
+        //
+        this.type = type;
+        this.name = name;
+        this.description = description;
     }
 
-    public String getChannelname() {
-        return channelname;
-    }
+    public void update(String newName, String newDescription) {
+        boolean anyValueUpdated = false;
+        if (newName != null && !newName.equals(this.name)) {
+            this.name = newName;
+            anyValueUpdated = true;
+        }
+        if (newDescription != null && !newDescription.equals(this.description)) {
+            this.description = newDescription;
+            anyValueUpdated = true;
+        }
 
-    public Long getCreatedAt() {
-        return createdAt;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public Long getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public List<UUID> getEnableuser() {
-        return enableuser;
-    }
-
-    public void update(UUID enableuser) {
-        this.enableuser.add(enableuser);
-
-    }
-
-    @Override
-    public String toString() {
-        return "Channel{" +
-                "channelname='" + channelname + '\'' +
-                ", id=" + id +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", username='" + username + '\'' +
-                '}';
+        if (anyValueUpdated) {
+            this.updatedAt = Instant.now();
+        }
     }
 }
